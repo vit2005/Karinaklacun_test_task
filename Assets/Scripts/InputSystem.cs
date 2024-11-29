@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class InputSystem : MonoBehaviour
     public float maxVelocity = 10f;    // Максимальна швидкість
     [SerializeField] private Rigidbody ballRigidbody;
     [SerializeField] private Transform forwardTransform;
+    [SerializeField] private CinemachineFreeLook camera;
 
     private void Update()
     {
@@ -35,12 +37,15 @@ public class InputSystem : MonoBehaviour
 
         // Додаємо силу до Rigidbody
         ballRigidbody.AddForce(force);
+        
     }
 
     private void LimitVelocity()
     {
         // Перевірка поточної швидкості
-        if (ballRigidbody.velocity.magnitude <= maxVelocity) return;
+        var speed = ballRigidbody.velocity.magnitude;
+        camera.m_Lens.FieldOfView = 40f + (speed / maxVelocity) * 40f;
+        if (speed <= maxVelocity) return;
         // Обмежуємо швидкість до maxVelocity
         ballRigidbody.velocity = ballRigidbody.velocity.normalized * maxVelocity;
     }
