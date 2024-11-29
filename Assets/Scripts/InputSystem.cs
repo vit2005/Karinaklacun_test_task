@@ -37,16 +37,25 @@ public class InputSystem : MonoBehaviour
 
         // Додаємо силу до Rigidbody
         ballRigidbody.AddForce(force);
-        
     }
 
     private void LimitVelocity()
     {
+        if (Mathf.Approximately(Input.GetAxis("Horizontal"), 0f))
+        {
+            Vector3 velocity = ballRigidbody.velocity;
+            velocity.x *= 0.8f;
+            ballRigidbody.velocity = velocity;
+        }
         // Перевірка поточної швидкості
         var speed = ballRigidbody.velocity.magnitude;
         cinemaCamera.m_Lens.FieldOfView = 40f + (speed / maxVelocity) * 40f;
-        if (speed <= maxVelocity) return;
+
+        float maxVelocityToCheck = Mathf.Approximately(Input.GetAxis("Vertical"), 0f) ? maxVelocity : maxVelocity * 2f;
+
+        if (speed <= maxVelocityToCheck) return;
         // Обмежуємо швидкість до maxVelocity
-        ballRigidbody.velocity = ballRigidbody.velocity.normalized * maxVelocity;
+        ballRigidbody.velocity = ballRigidbody.velocity.normalized * maxVelocityToCheck;
+        
     }
 }
