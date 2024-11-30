@@ -11,6 +11,11 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private Transform forwardTransform;
     [SerializeField] private CinemachineFreeLook cinemaCamera;
 
+    public void Awake()
+    {
+        enabled = false;
+    }
+
     private void Update()
     {
         HandleInput();
