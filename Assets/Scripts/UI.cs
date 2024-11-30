@@ -49,4 +49,9 @@ public class UI : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    public void OnExitClick()
+    {
+        Application.Quit();
+    }
 }
